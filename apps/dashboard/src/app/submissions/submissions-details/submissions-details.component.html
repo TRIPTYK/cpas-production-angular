@@ -1,18 +1,19 @@
 <mat-card>
-  <mat-card-title> Select Widget </mat-card-title>
+  <mat-card-title>Submission </mat-card-title>
   <form>
     <mat-card-content>
       <mat-form-field class="full-width">
-        <input matInput placeholder="Title" type="text" name="title" required />
+        <input matInput placeholder="Name" type="text" name="name" required />
       </mat-form-field>
       <mat-form-field class="full-width">
-        <input
+        <textarea
           matInput
-          placeholder="Description"
+          placeholder="Message"
           type="text"
-          name="description"
+          name="message"
+          rows="15"
           required
-        />
+        ></textarea>
       </mat-form-field>
     </mat-card-content>
     <mat-card-actions>
