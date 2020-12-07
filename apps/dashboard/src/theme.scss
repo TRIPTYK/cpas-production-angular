@@ -1,0 +1,107 @@
+@import '~@angular/material/theming';
+@include mat-core();
+/* For use in src/lib/core/theming/_palette.scss */
+$md-primary: (
+  50: #e3f4f3,
+  100: #b9e4e2,
+  200: #8ad2cf,
+  300: #5bc0bb,
+  400: #37b3ad,
+  500: #14a59e,
+  600: #129d96,
+  700: #0e938c,
+  800: #0b8a82,
+  900: #067970,
+  A100: #a8fff7,
+  A200: #75fff3,
+  A400: #42ffef,
+  A700: #28ffed,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #000000,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #000000,
+  ),
+);
+
+$md-mcgpalette2: (
+  50: #fdeee7,
+  100: #fad6c2,
+  200: #f7ba9a,
+  300: #f39e72,
+  400: #f18a53,
+  500: #ee7535,
+  600: #ec6d30,
+  700: #e96228,
+  800: #e75822,
+  900: #e24516,
+  A100: #ffffff,
+  A200: #ffe6e0,
+  A400: #ffbdad,
+  A700: #ffa993,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #000000,
+    500: #000000,
+    600: #000000,
+    700: #000000,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #000000,
+  ),
+);
+
+$md-mcgpalette2: (
+  50: #e0eaf0,
+  100: #b3cbd8,
+  200: #80a8bf,
+  300: #4d85a5,
+  400: #266b91,
+  500: #00517e,
+  600: #004a76,
+  700: #00406b,
+  800: #003761,
+  900: #00274e,
+  A100: #81b4ff,
+  A200: #4e95ff,
+  A400: #1b77ff,
+  A700: #0268ff,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #ffffff,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #ffffff,
+    A700: #ffffff,
+  ),
+);
+
+$my-app-primary: mat-palette($md-primary);
+$my-app-accent: mat-palette($md-mcgpalette2, 500, 900, A100);
+$my-app-warn: mat-palette($md-mcgpalette2);
+$my-app-theme: mat-light-theme($my-app-primary, $my-app-accent, $my-app-warn);
+@include angular-material-theme($my-app-theme);

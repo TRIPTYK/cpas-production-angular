@@ -1,10 +1,13 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'cpas-production-angular-root',
+  selector: 'cpas-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  title = 'dashboard';
+  links = [
+    { path: '/', icon: 'home', title: 'home' },
+    { path: '/submissions', icon: 'view_list', title: 'submissions' },
+  ];
 }
