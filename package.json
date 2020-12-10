@@ -6,7 +6,7 @@
     "ng": "nx",
     "postinstall": "node ./decorate-angular-cli.js && ngcc --properties es2015 browser module main --first-only --create-ivy-entry-points",
     "nx": "nx",
-    "start": "ng serve",
+    "start": "concurrently \"ng serve --open\" \"yarn api:mock\"",
     "build": "ng build",
     "test": "ng test",
     "lint": "nx workspace-lint && ng lint",
@@ -25,7 +25,8 @@
     "update": "ng update @nrwl/workspace",
     "workspace-schematic": "nx workspace-schematic",
     "dep-graph": "nx dep-graph",
-    "help": "nx help"
+    "help": "nx help",
+    "api:mock": "json-server-auth server/db.json "
   },
   "private": true,
   "dependencies": {
@@ -40,6 +41,7 @@
     "@angular/platform-browser-dynamic": "^10.1.0",
     "@angular/router": "^10.1.0",
     "@nrwl/angular": "10.4.4",
+    "json-server": "^0.16.3",
     "json-server-auth": "^2.0.2",
     "rxjs": "~6.5.5",
     "tslib": "^2.0.0",
@@ -61,6 +63,7 @@
     "@typescript-eslint/eslint-plugin": "4.3.0",
     "@typescript-eslint/parser": "4.3.0",
     "codelyzer": "~5.0.1",
+    "concurrently": "^5.3.0",
     "cypress": "^5.5.0",
     "dotenv": "6.2.0",
     "eslint": "7.10.0",

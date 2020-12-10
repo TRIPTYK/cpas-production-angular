@@ -16,10 +16,10 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@cpas-production-angular/core-data": ["libs/core-data/src/index.ts"],
-      "@cpas-production-angular/core-state": ["libs/core-state/src/index.ts"],
-      "@cpas-production-angular/material": ["libs/material/src/index.ts"],
-      "@cpas-production-angular/api-interface": [
+      "@cpas/core-data": ["libs/core-data/src/index.ts"],
+      "@cpas/core-state": ["libs/core-state/src/index.ts"],
+      "@cpas/material": ["libs/material/src/index.ts"],
+      "@cpas/api-interface": [
         "libs/api-interface/src/index.ts"
       ]
     }

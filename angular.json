@@ -10,7 +10,7 @@
       },
       "root": "apps/dashboard",
       "sourceRoot": "apps/dashboard/src",
-      "prefix": "cpas-production-angular",
+      "prefix": "cpas",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -124,7 +124,7 @@
       "projectType": "library",
       "root": "libs/core-data",
       "sourceRoot": "libs/core-data/src",
-      "prefix": "cpas-production-angular",
+      "prefix": "cpas",
       "architect": {
         "lint": {
           "builder": "@nrwl/linter:eslint",
@@ -150,7 +150,7 @@
       "projectType": "library",
       "root": "libs/core-state",
       "sourceRoot": "libs/core-state/src",
-      "prefix": "cpas-production-angular",
+      "prefix": "cpas",
       "architect": {
         "lint": {
           "builder": "@nrwl/linter:eslint",
@@ -176,7 +176,7 @@
       "projectType": "library",
       "root": "libs/material",
       "sourceRoot": "libs/material/src",
-      "prefix": "cpas-production-angular",
+      "prefix": "cpas",
       "architect": {
         "lint": {
           "builder": "@nrwl/linter:eslint",

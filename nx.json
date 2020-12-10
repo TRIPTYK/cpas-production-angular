@@ -1,5 +1,5 @@
 {
-  "npmScope": "cpas-production-angular",
+  "npmScope": "cpas",
   "affected": {
     "defaultBase": "master"
   },

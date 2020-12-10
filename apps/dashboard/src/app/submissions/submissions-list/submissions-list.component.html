@@ -2,20 +2,11 @@
   <mat-card-title> Submissions </mat-card-title>
   <mat-card-content>
     <mat-list data-cy="widgets-list">
-      <mat-list-item>
-        <span matLine>Nom </span>
-        <button mat-icon-button type="button" color="warn">
-          <mat-icon>clear</mat-icon>
-        </button>
-      </mat-list-item>
-      <mat-list-item>
-        <span matLine>Nom </span>
-        <button mat-icon-button type="button" color="warn">
-          <mat-icon>clear</mat-icon>
-        </button>
-      </mat-list-item>
-      <mat-list-item>
-        <span matLine>Nom </span>
+      <mat-list-item
+        *ngFor="let submission of submissions"
+        (click)="selected.emit(submission)"
+      >
+        <span matLine>{{ submission.name }} </span>
         <button mat-icon-button type="button" color="warn">
           <mat-icon>clear</mat-icon>
         </button>

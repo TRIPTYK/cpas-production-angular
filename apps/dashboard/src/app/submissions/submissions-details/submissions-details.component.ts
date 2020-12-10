@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Submission } from '@cpas/api-interface';
 
 @Component({
   selector: 'cpas-submissions-details',
@@ -6,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./submissions-details.component.scss'],
 })
 export class SubmissionsDetailsComponent implements OnInit {
+  @Input() submission: Submission;
   constructor() {}
 
   ngOnInit(): void {}

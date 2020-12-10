@@ -1,8 +1,8 @@
 export interface BaseEntity {
-  id: string | null
+  id: string | null;
 }
 
-export interface submission extends BaseEntity {
-  name:string;
-  message:string
+export interface Submission extends BaseEntity {
+  name: string;
+  message: string;
 }
