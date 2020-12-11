@@ -9,6 +9,8 @@ import { Submission } from '@cpas/api-interface';
 export class SubmissionsListComponent implements OnInit {
   @Input() submissions: Submission[] = [];
   @Output() selected = new EventEmitter();
+  @Output() deleted = new EventEmitter();
+
   constructor() {}
 
   ngOnInit(): void {}

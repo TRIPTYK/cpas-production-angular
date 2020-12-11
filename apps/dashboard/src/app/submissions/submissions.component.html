@@ -3,11 +3,14 @@
     <cpas-submissions-list
       [submissions]="submissions$ | async"
       (selected)="selectSubmission($event)"
+      (deleted)="deleteSubmission($event)"
     ></cpas-submissions-list>
   </div>
   <div class="details-components">
     <cpas-submissions-details
       [submission]="selectedSubmission"
+      (saved)="saveSubmission($event)"
+      (reset)="resetForm()"
     ></cpas-submissions-details>
   </div>
 </div>

@@ -7,7 +7,12 @@
         (click)="selected.emit(submission)"
       >
         <span matLine>{{ submission.name }} </span>
-        <button mat-icon-button type="button" color="warn">
+        <button
+          mat-icon-button
+          type="button"
+          color="warn"
+          (click)="deleted.emit(submission)"
+        >
           <mat-icon>clear</mat-icon>
         </button>
       </mat-list-item>

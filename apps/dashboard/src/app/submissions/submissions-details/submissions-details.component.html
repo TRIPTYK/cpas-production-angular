@@ -1,6 +1,10 @@
 <mat-card>
-  <mat-card-title>Submission </mat-card-title>
-  <form>
+  <mat-card-title>{{ originalTitle }} </mat-card-title>
+  <form
+    #form
+    (submit)="saved.emit(currentSubmission); form.reset()"
+    (reset)="form.reset(); reset.emit()"
+  >
     <mat-card-content>
       <mat-form-field class="full-width">
         <input
@@ -9,7 +13,7 @@
           type="text"
           name="name"
           required
-          [(ngModel)]="submission.name"
+          [(ngModel)]="currentSubmission.name"
         />
       </mat-form-field>
       <mat-form-field class="full-width">
@@ -20,13 +24,13 @@
           name="message"
           rows="15"
           required
-          [(ngModel)]="submission.message"
+          [(ngModel)]="currentSubmission.message"
         ></textarea>
       </mat-form-field>
     </mat-card-content>
     <mat-card-actions>
       <button type="submit" mat-button color="primary">Save</button>
-      <button type="button" mat-button>Cancel</button>
+      <button type="reset" mat-button>Cancel</button>
     </mat-card-actions>
   </form>
 </mat-card>

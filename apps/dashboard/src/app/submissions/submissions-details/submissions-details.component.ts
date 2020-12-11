@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Submission } from '@cpas/api-interface';
 
 @Component({
@@ -7,7 +7,14 @@ import { Submission } from '@cpas/api-interface';
   styleUrls: ['./submissions-details.component.scss'],
 })
 export class SubmissionsDetailsComponent implements OnInit {
-  @Input() submission: Submission;
+  originalTitle = 'Add a submission';
+  currentSubmission: Submission;
+  @Input() set submission(value: Submission) {
+    if (value) this.originalTitle = value.name;
+    this.currentSubmission = { ...value };
+  }
+  @Output() saved = new EventEmitter();
+  @Output() reset = new EventEmitter();
   constructor() {}
 
   ngOnInit(): void {}

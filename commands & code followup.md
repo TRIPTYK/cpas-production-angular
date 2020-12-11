@@ -320,3 +320,291 @@ this.selectedSubmission = submission;
 ---
 
 ## In the details components
+
+Import FormsModule in AppModule
+<mat-card>
+<mat-card-title>Submission </mat-card-title>
+
+  <form>
+    <mat-card-content>
+      <mat-form-field class="full-width">
+        <input
+          matInput
+          placeholder="name"
+          type="text"
+          name="name"
+          required
+          [(ngModel)]="submission.name"
+        />
+      </mat-form-field>
+      <mat-form-field class="full-width">
+        <textarea
+          matInput
+          placeholder="Message"
+          type="text"
+          name="message"
+          rows="15"
+          required
+          [(ngModel)]="submission.message"
+        ></textarea>
+      </mat-form-field>
+    </mat-card-content>
+    <mat-card-actions>
+      <button type="submit" mat-button color="primary">Save</button>
+      <button type="button" mat-button>Cancel</button>
+    </mat-card-actions>
+  </form>
+</mat-card>
+----
+
+## update the details
+
+first create empty Widget for errors management
+const emptySubmission: Submission = {
+id: null,
+name: '',
+message: '',
+};
+selectSubmission(submission: any) {
+if (!submission) {
+this.selectedSubmission = emptySubmission;
+} else {
+this.selectedSubmission = submission;
+}
+}
+
+### Create submission
+
+in submissions.components add
+import { Component, OnInit } from '@angular/core';
+import { Submission } from '@cpas/api-interface';
+import { SubmissionsService } from '@cpas/core-data';
+import { Observable } from 'rxjs';
+
+const emptySubmission: Submission = {
+id: null,
+name: '',
+message: '',
+};
+@Component({
+selector: 'cpas-production-angular-submissions',
+templateUrl: './submissions.component.html',
+styleUrls: ['./submissions.component.scss'],
+})
+export class SubmissionsComponent implements OnInit {
+submissions\$: Observable<Submission[]>;
+selectedSubmission: Submission;
+
+constructor(private submissionService: SubmissionsService) {}
+
+ngOnInit(): void {
+this.reset();
+}
+reset() {
+this.loadSubmissions();
+this.selectSubmission(null);
+}
+loadSubmissions() {
+this.submissions\$ = this.submissionService.all();
+}
+selectSubmission(submission: any) {
+if (!submission) {
+this.selectedSubmission = emptySubmission;
+} else {
+this.selectedSubmission = submission;
+}
+}
+
+saveSubmission(submission: Submission) {
+if (submission.id) {
+this.updateSubmission(submission);
+} else {
+this.createSubmission(submission);
+}
+}
+
+createSubmission(submission: Submission) {
+this.submissionService
+.create(submission)
+.subscribe((result) => this.reset());
+}
+
+updateSubmission(submission: Submission) {
+this.submissionService
+.update(submission)
+.subscribe((result) => this.reset());
+}
+}
+
+### in submissions details add
+
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Submission } from '@cpas/api-interface';
+
+@Component({
+selector: 'cpas-submissions-details',
+templateUrl: './submissions-details.component.html',
+styleUrls: ['./submissions-details.component.scss'],
+})
+export class SubmissionsDetailsComponent implements OnInit {
+originalTitle = 'Add a submission';
+currentSubmission: Submission;
+@Input() set submission(value: Submission) {
+if (value) this.originalTitle = value.name;
+this.currentSubmission = { ...value };
+}
+@Output() saved = new EventEmitter();
+constructor() {}
+
+ngOnInit(): void {}
+}
+
+### Reset form
+
+details component
+
+<form
+    #form
+    (submit)="saved.emit(currentSubmission)"
+    (reset)="form.reset(); reset.emit()"
+  >
+
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Submission } from '@cpas/api-interface';
+
+@Component({
+selector: 'cpas-submissions-details',
+templateUrl: './submissions-details.component.html',
+styleUrls: ['./submissions-details.component.scss'],
+})
+export class SubmissionsDetailsComponent implements OnInit {
+originalTitle = 'Add a submission';
+currentSubmission: Submission;
+@Input() set submission(value: Submission) {
+if (value) this.originalTitle = value.name;
+this.currentSubmission = { ...value };
+}
+@Output() saved = new EventEmitter();
+@Output() reset = new EventEmitter();
+constructor() {}
+
+ngOnInit(): void {}
+}
+
+submission component
+
+import { Component, OnInit } from '@angular/core';
+import { Submission } from '@cpas/api-interface';
+import { SubmissionsService } from '@cpas/core-data';
+import { Observable } from 'rxjs';
+
+const emptySubmission: Submission = {
+id: null,
+name: '',
+message: '',
+};
+@Component({
+selector: 'cpas-production-angular-submissions',
+templateUrl: './submissions.component.html',
+styleUrls: ['./submissions.component.scss'],
+})
+export class SubmissionsComponent implements OnInit {
+submissions\$: Observable<Submission[]>;
+selectedSubmission: Submission;
+
+constructor(private submissionService: SubmissionsService) {}
+
+ngOnInit(): void {
+this.reset();
+}
+reset() {
+this.loadSubmissions();
+this.selectSubmission(null);
+}
+resetForm() {
+this.selectedSubmission = emptySubmission;
+}
+loadSubmissions() {
+this.submissions\$ = this.submissionService.all();
+}
+selectSubmission(submission: any) {
+if (!submission) {
+this.selectedSubmission = emptySubmission;
+} else {
+this.selectedSubmission = submission;
+}
+}
+
+saveSubmission(submission: Submission) {
+if (submission.id) {
+this.updateSubmission(submission);
+} else {
+this.createSubmission(submission);
+}
+}
+
+createSubmission(submission: Submission) {
+this.submissionService
+.create(submission)
+.subscribe((result) => this.reset());
+}
+
+updateSubmission(submission: Submission) {
+this.submissionService
+.update(submission)
+.subscribe((result) => this.reset());
+}
+}
+
+### delete submission
+
+in Submission list html
+<mat-card>
+<mat-card-title> Submissions </mat-card-title>
+<mat-card-content>
+<mat-list data-cy="widgets-list">
+<mat-list-item
+\*ngFor="let submission of submissions"
+(click)="selected.emit(submission)" >
+<span matLine>{{ submission.name }} </span>
+<button
+mat-icon-button
+type="button"
+color="warn"
+(click)="deleted.emit(submission.id)" >
+<mat-icon>clear</mat-icon>
+</button>
+</mat-list-item>
+</mat-list>
+</mat-card-content>
+</mat-card>
+
+in submission list TS
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Submission } from '@cpas/api-interface';
+
+@Component({
+selector: 'cpas-submissions-list',
+templateUrl: './submissions-list.component.html',
+styleUrls: ['./submissions-list.component.scss'],
+})
+export class SubmissionsListComponent implements OnInit {
+@Input() submissions: Submission[] = [];
+@Output() selected = new EventEmitter();
+@Output() deleted = new EventEmitter();
+
+constructor() {}
+
+ngOnInit(): void {}
+}
+
+in submission ts
+
+deleteSubmission(submission) {
+this.submissionService
+.delete(submission)
+.subscribe((result) => this.reset());
+}
+
+in submission in html
+(deleted)="deleteSubmission(\$event)"
