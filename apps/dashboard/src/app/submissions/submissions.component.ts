@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Submission } from '@cpas/api-interface';
-import { SubmissionsService } from '@cpas/core-data';
+import { SubmissionsFacade } from '@cpas/core-state';
 import { Observable } from 'rxjs';
 
 const emptySubmission: Submission = {
@@ -17,7 +17,7 @@ export class SubmissionsComponent implements OnInit {
   submissions$: Observable<Submission[]>;
   selectedSubmission: Submission;
 
-  constructor(private submissionService: SubmissionsService) {}
+  constructor(private submissionsFacade: SubmissionsFacade) {}
 
   ngOnInit(): void {
     this.reset();
@@ -31,11 +31,10 @@ export class SubmissionsComponent implements OnInit {
     this.selectedSubmission = emptySubmission;
   }
   loadSubmissions() {
-    this.submissions$ = this.submissionService.all();
+    this.submissions$ = this.submissionsFacade.loadSubmissions();
   }
   selectSubmission(submission: Submission) {
     if (!submission) {
-      console.log('rrrr');
       this.resetForm();
     } else {
       this.selectedSubmission = submission;
@@ -43,27 +42,14 @@ export class SubmissionsComponent implements OnInit {
   }
 
   saveSubmission(submission: Submission) {
-    if (submission.id) {
-      this.updateSubmission(submission);
-    } else {
-      this.createSubmission(submission);
-    }
-  }
-
-  createSubmission(submission: Submission) {
-    this.submissionService
-      .create(submission)
+    this.submissionsFacade
+      .saveSubmission(submission)
       .subscribe((result) => this.reset());
   }
 
-  updateSubmission(submission: Submission) {
-    this.submissionService
-      .update(submission)
-      .subscribe((result) => this.reset());
-  }
   deleteSubmission(submission) {
-    this.submissionService
-      .delete(submission)
+    this.submissionsFacade
+      .deleteSubmission(submission)
       .subscribe((result) => this.reset());
   }
 }

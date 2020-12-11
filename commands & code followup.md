@@ -608,3 +608,48 @@ this.submissionService
 
 in submission in html
 (deleted)="deleteSubmission(\$event)"
+
+### create facade
+
+yarn nx g service submissions/submissions.facade --project=core-state
+
+import { Injectable } from '@angular/core';
+import { SubmissionsService } from '@cpas/core-data';
+import { Submission } from '@cpas/api-interface';
+@Injectable({
+providedIn: 'root',
+})
+export class SubmissionsFacade {
+constructor(private submissionsService: SubmissionsService) {}
+loadSubmissions() {
+return this.submissionsService.all();
+}
+saveSubmission(submission) {
+if (submission.id) {
+return this.submissionsService.update(submission);
+} else {
+return;
+}
+}
+createSubmission(submission: Submission) {
+return this.submissionsService.create(submission);
+}
+
+updateSubmission(submission: Submission) {
+return this.submissionsService.update(submission);
+}
+
+deleteSubmission(submission: Submission) {
+return this.submissionsService.delete(submission);
+}
+}
+
+### update service files
+
+import core-data module in statemodule
+
+export the facade in index.ts
+export { CoreStateModule } from './lib/core-state.module';
+export { SubmissionsFacade } from './lib/submissions/submissions.facade.service';
+
+## update project with facade

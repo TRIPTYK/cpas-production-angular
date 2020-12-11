@@ -1,10 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, Route } from '@angular/router';
-
-export const coreStateRoutes: Route[] = [];
+import { CoreDataModule } from '@cpas/core-data';
 
 @NgModule({
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, CoreDataModule],
 })
 export class CoreStateModule {}
