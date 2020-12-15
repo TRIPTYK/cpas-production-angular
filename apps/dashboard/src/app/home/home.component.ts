@@ -2,6 +2,7 @@ import { SubmissionsService } from '@cpas/core-data';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Submission } from '@cpas/api-interface';
+import { SubmissionsFacade } from '@cpas/core-state';
 
 @Component({
   selector: 'cpas-home',
@@ -9,13 +10,14 @@ import { Submission } from '@cpas/api-interface';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  submissions$: Observable<Submission[]>;
-  constructor(private submissionsService: SubmissionsService) {}
+  allSubmissions$: Observable<Submission[]> = this.submissionsFacade
+    .allSubmissions$;
+  constructor(private submissionsFacade: SubmissionsFacade) {}
 
   ngOnInit(): void {
     this.loadSubmissions();
   }
   loadSubmissions() {
-    this.submissions$ = this.submissionsService.all();
+    this.submissionsFacade.loadSubmissions();
   }
 }

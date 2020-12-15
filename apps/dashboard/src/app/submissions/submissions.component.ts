@@ -14,13 +14,17 @@ const emptySubmission: Submission = {
   styleUrls: ['./submissions.component.scss'],
 })
 export class SubmissionsComponent implements OnInit {
-  submissions$: Observable<Submission[]>;
-  selectedSubmission: Submission;
+  allSubmissions$: Observable<Submission[]> = this.submissionsFacade
+    .allSubmissions$;
+
+  selectedSubmission$: Observable<Submission> = this.submissionsFacade
+    .selectedSubmissions$;
 
   constructor(private submissionsFacade: SubmissionsFacade) {}
 
   ngOnInit(): void {
     this.reset();
+    this.submissionsFacade.mutations$.subscribe((_) => this.reset());
   }
   reset() {
     this.loadSubmissions();
@@ -28,28 +32,21 @@ export class SubmissionsComponent implements OnInit {
     this.resetForm();
   }
   resetForm() {
-    this.selectedSubmission = emptySubmission;
+    // this.selectedSubmission = emptySubmission;
+    this.selectSubmission(null);
   }
   loadSubmissions() {
-    this.submissions$ = this.submissionsFacade.loadSubmissions();
+    this.submissionsFacade.loadSubmissions();
   }
   selectSubmission(submission: Submission) {
-    if (!submission) {
-      this.resetForm();
-    } else {
-      this.selectedSubmission = submission;
-    }
+    this.submissionsFacade.selectSubmission(submission);
   }
 
   saveSubmission(submission: Submission) {
-    this.submissionsFacade
-      .saveSubmission(submission)
-      .subscribe((result) => this.reset());
+    this.submissionsFacade.saveSubmission(submission);
   }
 
   deleteSubmission(submission) {
-    this.submissionsFacade
-      .deleteSubmission(submission)
-      .subscribe((result) => this.reset());
+    this.submissionsFacade.deleteSubmission(submission);
   }
 }

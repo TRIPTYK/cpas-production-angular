@@ -1,14 +1,14 @@
 <div class="component-container">
   <div class="list-component">
     <cpas-submissions-list
-      [submissions]="submissions$ | async"
+      [submissions]="allSubmissions$ | async"
       (selected)="selectSubmission($event)"
       (deleted)="deleteSubmission($event)"
     ></cpas-submissions-list>
   </div>
   <div class="details-components">
     <cpas-submissions-details
-      [submission]="selectedSubmission"
+      [submission]="selectedSubmission$ | async"
       (saved)="saveSubmission($event)"
       (reset)="resetForm()"
     ></cpas-submissions-details>

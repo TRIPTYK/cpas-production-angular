@@ -6,7 +6,7 @@ import { Submission } from '@cpas/api-interface';
 })
 export class SubmissionsService {
   model = 'submissions';
-  endPoint = 'http://localhost:3001/';
+  endPoint = 'http://localhost:3000/';
   constructor(private http: HttpClient) {}
 
   all() {

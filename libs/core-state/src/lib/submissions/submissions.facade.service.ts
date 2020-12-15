@@ -1,30 +1,49 @@
 import { Injectable } from '@angular/core';
 import { SubmissionsService } from '@cpas/core-data';
 import { Submission } from '@cpas/api-interface';
+import { Subject } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
 export class SubmissionsFacade {
+  private allSubmissions = new Subject<Submission[]>();
+  private selectedSubmission = new Subject<Submission>();
+  private mutations = new Subject();
+
+  allSubmissions$ = this.allSubmissions.asObservable();
+  selectedSubmissions$ = this.selectedSubmission.asObservable();
+  mutations$ = this.mutations.asObservable();
+
   constructor(private submissionsService: SubmissionsService) {}
+  reset() {
+    this.mutations.next(true);
+  }
+  selectSubmission(submission: Submission) {
+    this.selectedSubmission.next(submission);
+  }
   loadSubmissions() {
-    return this.submissionsService.all();
+    this.submissionsService
+      .all()
+      .subscribe((submissions: Submission[]) =>
+        this.allSubmissions.next(submissions)
+      );
   }
   saveSubmission(submission) {
     if (submission.id) {
-      return this.updateSubmission(submission);
+      this.updateSubmission(submission);
     } else {
-      return this.createSubmission(submission);
+      this.createSubmission(submission);
     }
   }
   createSubmission(submission: Submission) {
-    return this.submissionsService.create(submission);
+    this.submissionsService.create(submission).subscribe((_) => this.reset());
   }
 
   updateSubmission(submission: Submission) {
-    return this.submissionsService.update(submission);
+    this.submissionsService.update(submission).subscribe((_) => this.reset());
   }
 
   deleteSubmission(submission: Submission) {
-    return this.submissionsService.delete(submission);
+    this.submissionsService.delete(submission).subscribe((_) => this.reset());
   }
 }

@@ -653,3 +653,96 @@ export { CoreStateModule } from './lib/core-state.module';
 export { SubmissionsFacade } from './lib/submissions/submissions.facade.service';
 
 ## update project with facade
+
+### update facade with subject
+
+## update facade file
+
+import { Injectable } from '@angular/core';
+import { SubmissionsService } from '@cpas/core-data';
+import { Submission } from '@cpas/api-interface';
+import { Subject } from 'rxjs';
+@Injectable({
+providedIn: 'root',
+})
+export class SubmissionsFacade {
+private allSubmissions = new Subject<Submission[]>();
+private selectedSubmission = new Subject<Submission>();
+private mutations = new Subject();
+
+allSubmissions$ = this.allSubmissions.asObservable();
+  selectedSubmissions$ = this.selectedSubmission.asObservable();
+mutations\$ = this.mutations.asObservable();
+
+constructor(private submissionsService: SubmissionsService) {}
+reset() {
+this.mutations.next(true);
+}
+selectSubmission(submission: Submission) {
+this.selectedSubmission.next(submission);
+}
+loadSubmissions() {
+this.submissionsService
+.all()
+.subscribe((submissions: Submission[]) =>
+this.allSubmissions.next(submissions)
+);
+}
+saveSubmission(submission) {
+if (submission.id) {
+this.updateSubmission(submission);
+} else {
+this.createSubmission(submission);
+}
+}
+createSubmission(submission: Submission) {
+this.submissionsService.create(submission).subscribe((\_) => this.reset());
+}
+
+updateSubmission(submission: Submission) {
+this.submissionsService.update(submission).subscribe((\_) => this.reset());
+}
+
+deleteSubmission(submission: Submission) {
+this.submissionsService.delete(submission).subscribe((\_) => this.reset());
+}
+}
+
+## change home component
+
+import { SubmissionsService } from '@cpas/core-data';
+import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Submission } from '@cpas/api-interface';
+import { SubmissionsFacade } from '@cpas/core-state';
+
+@Component({
+selector: 'cpas-home',
+templateUrl: './home.component.html',
+styleUrls: ['./home.component.scss'],
+})
+export class HomeComponent implements OnInit {
+allSubmissions$: Observable<Submission[]> = this.submissionsFacade
+    .allSubmissions$;
+constructor(private submissionsFacade: SubmissionsFacade) {}
+
+ngOnInit(): void {
+this.loadSubmissions();
+}
+loadSubmissions() {
+this.submissionsFacade.loadSubmissions();
+}
+}
+
+<div class="component-container">
+  <div class="list-component">
+    <cpas-submissions-list
+      [submissions]="allSubmissions$ | async"
+    ></cpas-submissions-list>
+  </div>
+  <!-- <pre>{{ submissions$ | async | json }}</pre> -->
+</div>
+
+## change submissions component TS
+
+## change submissions component HTML
