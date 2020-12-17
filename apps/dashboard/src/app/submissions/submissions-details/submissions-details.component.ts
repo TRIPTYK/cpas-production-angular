@@ -10,7 +10,12 @@ export class SubmissionsDetailsComponent implements OnInit {
   originalTitle = 'Add a submission';
   currentSubmission: Submission;
   @Input() set submission(value: Submission) {
-    if (value) this.originalTitle = value.name;
+    console.log(value);
+    if (value) {
+      this.originalTitle = value.name;
+    } else {
+      this.originalTitle = 'Add a submission';
+    }
     this.currentSubmission = { ...value };
   }
   @Output() saved = new EventEmitter();
